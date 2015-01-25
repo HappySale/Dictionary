@@ -1,1 +1,1 @@
-module.exports = require('src-es5/dictionary');
+module.exports = require('./src-es5/dictionary');
