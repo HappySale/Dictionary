@@ -7,12 +7,12 @@ export default function createEnum(...params) {
 
   let obj = {};
 
-  for (let param of params) {
+  params.forEach(function(param) {
     console.assert(isString(param), 'param is not a string');
     console.assert(! isEmpty(param), 'param is empty');
 
     obj[param] = param;
-  }
+  });
 
   return obj;
 }
