@@ -36,53 +36,46 @@ describe('Dictionary', function() {
   });
 
   describe('addTexts()', function() {
-    describe('no prefix', function() {
-      it('add preTemplates of texts', function() {
-        let dict = new Dictionary(),
-          preTemplates = {
-            '__hi__': 'hello!',
-            '__stars__': {
-              none: 'You have no stars',
-              single: 'You have a star',
-              other: 'You have {{count}} stars'
-            }
-          };
+    const PRE_TEMPLATES = {
+      '__hi__': 'hello!',
+      '__stars__': {
+        none: 'You have no stars',
+        single: 'You have a star',
+        other: 'You have {{count}} stars'
+      }
+    };
+    let dict;
 
-        dict.addTexts(preTemplates);
-      });
+    beforeEach(function() {
+      dict = new Dictionary();
     });
 
-    describe('with prefix', function() {
-      it('add preTemplates of texts', function() {
-        let dict = new Dictionary(),
-          preTemplates = {
-            '__hi__': 'hello!',
-            '__stars__': {
-              none: 'You have no stars',
-              single: 'You have a star',
-              other: 'You have {{count}} stars'
-            }
-          };
+    it('add preTemplates of texts with no prefix', function() {
+      dict.addTexts(PRE_TEMPLATES);
+    });
 
-        dict.addTexts(preTemplates, 'hello');
-      });
+    it('add preTemplates of texts with prefix', function() {
+      dict.addTexts(PRE_TEMPLATES, 'hello');
     });
   });
 
   describe('call template functions', function() {
     describe('no prefix', function() {
-      let dict = new Dictionary(),
-        preTemplates = {
-          '__hi__': 'hello!',
-          '__hi_person__': 'hi {{0}}!',
-          '__stars__': {
-            none: 'You have no stars',
-            single: 'You have a star',
-            other: 'You have {{count}} stars'
-          }
-        };
+      const PRE_TEMPLATES = {
+        '__hi__': 'hello!',
+        '__hi_person__': 'hi {{0}}!',
+        '__stars__': {
+          none: 'You have no stars',
+          single: 'You have a star',
+          other: 'You have {{count}} stars'
+        }
+      };
+      let dict;
 
-      dict.addTexts(preTemplates);
+      beforeEach(function() {
+        dict = new Dictionary();
+        dict.addTexts(PRE_TEMPLATES);
+      });
 
       it('should return hello! for __hi__ when calling t()', function() {
         let result = dict.t('__hi__');
@@ -108,18 +101,16 @@ describe('Dictionary', function() {
         expect(result).to.equal('You have 5 stars');
       });
 
-      describe('shortcut functions', function() {
-        it('should return "hi guy!" for __hi_person__ when calling gt()', function() {
-          let result = dict.gt('__hi_person__', 'guy');
+      it('should return "hi guy!" for __hi_person__ when calling gt()', function() {
+        let result = dict.gt('__hi_person__', 'guy');
 
-          expect(result).to.equal('hi guy!');
-        });
+        expect(result).to.equal('hi guy!');
+      });
 
-        describe('should return "You have no stars" for __stars__ when calling gc(..., 0)', function() {
-          let result = dict.gc('__stars__', 0);
+      it('should return "You have no stars" for __stars__ when calling gc(..., 0)', function() {
+        let result = dict.gc('__stars__', 0);
 
-          expect(result).to.equal('You have no stars');
-        });
+        expect(result).to.equal('You have no stars');
       });
     });
 
@@ -179,25 +170,28 @@ describe('Dictionary', function() {
   describe('addLanguage()', function() {
     const EN = { '_hi_': 'hi {{0}}!' };
     const HE = { '_hi_': 'שלום {{0}}!' };
-    let dict = new Dictionary(),
-    { gt, lang } = dict.getShortcuts();
+    let dict;
 
-    dict.addTexts(EN);
-    dict.setCurrentLanguage('he');
-    dict.addTexts(HE);
+    beforeEach(function() {
+      dict = new Dictionary();
+
+      dict.addTexts(EN);
+      dict.setCurrentLanguage('he');
+      dict.addTexts(HE);
+    });
 
     it('should return localized English to __hi__', function() {
-      lang('en');
+      dict.setCurrentLanguage('en');
 
-      let result = gt('_hi_', 'bob');
+      let result = dict.gt('_hi_', 'bob');
 
       expect(result).to.equal('hi bob!');
     });
 
     it('should return localized Hebrew to __hi__', function() {
-      lang('he');
+      dict.setCurrentLanguage('he');
 
-      let result = gt('_hi_', 'משה');
+      let result = dict.gt('_hi_', 'משה');
 
       expect(result).to.equal('שלום משה!');
     });
