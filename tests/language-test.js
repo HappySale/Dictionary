@@ -25,14 +25,35 @@ describe('Language', function() {
   });
 
   describe('add()', function() {
-    let language = new Language();
+    let language;
+
+    beforeEach(function() {
+      language = new Language();
+    });
 
     it('should work with text pre template', function() {
-      language.add({ _key_text_: 'text' });
+      expect(function() {
+        language.add({ _key_text_: 'text' });
+      }).to.not.throw();
     });
 
     it('should work with count pre template', function() {
-      language.add({ _key_count_: { other: 'hello' } });
+      expect(function() {
+        language.add({ _key_count_: { other: 'hello' } });
+      }).to.not.throw();
+    });
+
+    it('should work with same texts on prefix and unprefix simultaneous', function() {
+      const TEXTS = {
+        _key_text_: 'text',
+        _key_count_: { other: 'hello' }
+      };
+
+      expect(function() {
+        language.add(TEXTS);
+        language.add(TEXTS, 'prefix');
+        language.add(TEXTS, 'prefix2');
+      }).to.not.throw();
     });
 
     describe('fail tests', function() {
