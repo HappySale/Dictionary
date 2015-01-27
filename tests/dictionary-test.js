@@ -19,7 +19,7 @@ describe('Dictionary', function() {
     });
 
     it('should set to language that set on constructor', function() {
-      let dict = new Dictionary('he');
+      let dict = new Dictionary({ language: 'he' });
 
       expect(dict.getCurrentLanguage()).to.equal('he');
     });
