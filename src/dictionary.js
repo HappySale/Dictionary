@@ -1,5 +1,6 @@
 import assign from 'object-assign';
 import { isString, isBoolean, isNone } from './utils/type-of';
+import DEFAULT_LANGUAGE from './constants/default-language';
 import Language from './language';
 const { keys } = Object;
 
