@@ -1,6 +1,7 @@
 import assign from 'object-assign';
 import runtime from './runtime';
-import { isString, isObject } from './utils/type-of';
+import typeOf from './utils/type-of';
+const { isString, isBoolean, isObject } = typeOf;
 const { keys } = Object;
 
 
@@ -16,15 +17,69 @@ class Language {
 
       let preTemplate = preTemplates[key];
 
+      console.assert((
+        isString(preTemplate) ||
+        (keys(preTemplate).every((k) => isString(preTemplate[k])))
+      ), 'preTemplate is not a string or object of strings');
+
       this[key] = runtime[runtime.typeOf(preTemplate)](preTemplate);
     }, newContext);
 
     return newContext;
   }
 
-  constructor() {
+  constructor(features) {
+    const FEATURES = assign({
+      recordTexts: false
+    }, features);
+
+    console.assert(isBoolean(FEATURES.recordTexts), 'recordTexts is not a boolean');
+
+    this.RECORD_TEXTS = FEATURES.recordTexts;
     this.texts = {};
     this.components = {};
+
+    if (this.RECORD_TEXTS) {
+      this.preTexts = {};
+      this.preComponents = {};
+    }
+  }
+
+  /**
+   * Saves preTemplates
+   * @param  {Object of String or Object} from Pre templates before compilation
+   * @param  {String} prefix                   Prefix if texts related to component
+   *
+   * @validation NOTE: asserts made in `concatTexts` and `add`
+   */
+  _record(from, prefix) {
+    /** @type {Object of String or Object} The container of recorded pre templates */
+    let to = (prefix ?
+      (this.preComponents[prefix] || (this.preComponents[prefix] = {})) :
+      this.preTexts
+    );
+
+    keys(from).forEach(function(tag) {
+      let text = from[tag];
+
+      switch(typeOf(text)) {
+        case 'string':
+          assign(to, { [tag]: text });
+          break;
+
+        case 'object':
+          to[tag] = isObject(from[tag]) ? from[tag] : {};
+
+          keys(text).forEach(function(to, from, tag) {
+            let text = from[tag];
+
+            if (isString(text)) {
+              assign(to, { [tag]: text });
+            }
+          }.bind(this, to[tag], from[tag]));
+          break;
+      }
+    });
   }
 
   add(preTemplates, prefix = '') {
@@ -35,10 +90,13 @@ class Language {
     if (prefix) {
       console.assert(! (prefix in this.components), 'prefix already assigned');
 
-      this.components[prefix] = Language.concatTexts(this.texts, preTemplates);
       this.components[prefix] = Language.concatTexts({}, preTemplates);
     } else {
       this.texts = Language.concatTexts(this.texts, preTemplates);
+    }
+
+    if (this.RECORD_TEXTS) {
+      this._record(preTemplates, prefix);
     }
   }
 
@@ -59,6 +117,17 @@ class Language {
 
       return this.texts[text];
     }
+  }
+
+  getRecords() {
+    if (! this.RECORD_TEXTS) {
+      return null;
+    }
+
+    return {
+      texts: this.preTexts,
+      components: this.preComponents
+    };
   }
 }
 

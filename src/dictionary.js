@@ -1,12 +1,22 @@
-import { isString, isNone } from './utils/type-of';
+import assign from 'object-assign';
+import { isString, isBoolean, isNone } from './utils/type-of';
 import Language from './language';
+const { keys } = Object;
 
 
 class Dictionary {
-  constructor(currentLanguage = 'en') {
-    this.languages = {};
+  constructor(features) {
+    const FEATURES = assign({
+      language: 'en',
+      recordTexts: false
+    }, features);
 
-    this.setCurrentLanguage(currentLanguage);
+    console.assert(isString(FEATURES.language), 'language is not a sting');
+    console.assert(isBoolean(FEATURES.recordTexts), 'recordTexts is not a boolean');
+
+    this.RECORD_TEXTS = FEATURES.recordTexts;
+    this.languages = {};
+    this.setCurrentLanguage(FEATURES.language);
   }
 
   getCurrentLanguage() {
@@ -39,7 +49,7 @@ class Dictionary {
   addLanguage(languageCode) {
     console.assert(! (languageCode in this.languages), `'${languageCode}' is already exists in languages`);
 
-    this.languages[languageCode] = new Language(languageCode);
+    this.languages[languageCode] = new Language({ recordTexts: this.RECORD_TEXTS });
   }
 
   getLanguagesList() {
@@ -87,6 +97,21 @@ class Dictionary {
       gt: this.gt.bind(this),
       gc: this.gc.bind(this)
     };
+  }
+
+  getRecords() {
+    if (! this.RECORD_TEXTS) {
+      return null;
+    }
+
+    let records = {};
+
+    this.getLanguagesList().forEach(function(languageCode) {
+      let langauge = this.getLanguage(languageCode);
+      records[languageCode] = langauge.getRecords();
+    }, this);
+
+    return records;
   }
 }
 

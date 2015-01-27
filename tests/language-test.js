@@ -1,7 +1,7 @@
 /** related to module: language */
 import { expect } from 'chai';
 /** Chai doesn't have `except.to.be.function` */
-import { isFunction } from '../src/utils/type-of';
+import { isFunction, isObject, isEmpty } from '../src/utils/type-of';
 import Language from '../src/language';
 
 
@@ -108,6 +108,69 @@ describe('Language', function() {
         let result = template(0);
 
         expect(result).to.equal('hello');
+      });
+    });
+  });
+
+  describe('getRecords()', function() {
+    describe('feature on', function() {
+      const TEXTS = {
+        'hi': 'hello',
+        'bugs': {
+          'none': 'no bugs',
+          'other': 'there are {{count}} bugs'
+        }
+      };
+      const COMPONENT_PREFIX = 'component';
+      let lang;
+
+      beforeEach(function() {
+        lang = new Language({ recordTexts: true });
+        /** Texts - templates */
+        lang.add(TEXTS);
+
+        /** Components - templates */
+        lang.add(TEXTS, COMPONENT_PREFIX);
+      });
+
+      it('should return an object', function() {
+        let result = lang.getRecords();
+
+        expect(isObject(result)).to.true();
+        expect(isEmpty(result)).to.false();
+      });
+
+      it('records.texts should match TEXTS', function() {
+        let result = lang.getRecords(),
+        { texts } = result;
+
+        expect(texts).to.exist();
+        expect(texts).to.eql(TEXTS);
+      });
+
+      it('records.components should match TEXTS', function() {
+        let result = lang.getRecords(),
+        { components } = result;
+
+        expect(components).to.exist();
+        expect(COMPONENT_PREFIX in components).to.true();
+        expect(components[COMPONENT_PREFIX]).to.eql(TEXTS);
+      });
+    });
+
+    describe('feature off', function() {
+      it('should return null if it `recordTexts` is false', function() {
+        let lang = new Language({ recordTexts: false });
+        let result = lang.getRecords();
+
+        expect(result).to.equal(null);
+      });
+
+      it('should return null if it `recordTexts` was not set', function() {
+        let lang = new Language();
+        let result = lang.getRecords();
+
+        expect(result).to.equal(null);
       });
     });
   });

@@ -1,6 +1,6 @@
 /** related to module: dictionary */
 import { expect } from 'chai';
-import { isFunction } from '../src/utils/type-of';
+import { isFunction, isObject, isArray, isEmpty } from '../src/utils/type-of';
 import Dictionary from '../src/dictionary';
 
 
@@ -228,6 +228,50 @@ describe('Dictionary', function() {
 
       expect(result).to.contain('en', 'he');
       expect(result.length).to.equal(2);
+    });
+  });
+
+  describe('getRecords()', function() {
+    const EN = { '_hi_': 'hi {{0}}!' };
+    const HE = { '_hi_': 'שלום {{0}}!' };
+    const PREFIX = 'prefix';
+    let dict, records;
+
+    before(function() {
+      dict = new Dictionary({
+        recordTexts: true,
+        language: 'en'
+      });
+
+      dict.addTexts(EN);
+      dict.addTexts(EN, PREFIX);
+
+      dict.setCurrentLanguage('he');
+      dict.addTexts(HE);
+      dict.addTexts(HE, PREFIX);
+
+      records = dict.getRecords();
+    });
+
+    it('should return an object', function() {
+      expect(isObject(records)).to.true();
+    });
+
+    it('should return a non empty object', function() {
+      expect(isEmpty(records)).to.false();
+    });
+
+    it('should return an object that contains he and en languages keys', function() {
+      expect(records).to.keys(['he', 'en']);
+    });
+
+    it('should return object that identical to tree', function() {
+      const TREE = {
+        en: { texts: EN, components: { [PREFIX]: EN } },
+        he: { texts: HE, components: { [PREFIX]: HE } }
+      };
+
+      expect(records).to.eql(TREE);
     });
   });
 });
