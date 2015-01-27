@@ -1,4 +1,4 @@
-/** related to module: runtime/text */
+/** related to module: runtime/type-of-template */
 import { expect } from 'chai';
 /** Chai doesn't have `except.to.be.function` */
 import { isFunction } from '../src/utils/type-of';

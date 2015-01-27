@@ -1,4 +1,4 @@
-/** related to module: compilers/count */
+/** related to module: utils/create-enum */
 import { expect } from 'chai';
 import createEnum from '../src/utils/create-enum';
 /** Chai doesn't have `except.to.be.object` */

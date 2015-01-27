@@ -1,4 +1,4 @@
-/** related to module: template */
+/** related to module: utils/noop */
 import { expect } from 'chai';
 import noop from '../src/utils/noop';
 

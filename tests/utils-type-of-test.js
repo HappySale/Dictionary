@@ -1,4 +1,4 @@
-/** related to module: template */
+/** related to module: utils/type-of */
 import { expect } from 'chai';
 import typeOf from '../src/utils/type-of';
 
