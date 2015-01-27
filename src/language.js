@@ -36,6 +36,7 @@ class Language {
       console.assert(! (prefix in this.components), 'prefix already assigned');
 
       this.components[prefix] = Language.concatTexts(this.texts, preTemplates);
+      this.components[prefix] = Language.concatTexts({}, preTemplates);
     } else {
       this.texts = Language.concatTexts(this.texts, preTemplates);
     }
