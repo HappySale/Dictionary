@@ -42,6 +42,10 @@ class Dictionary {
     this.languages[languageCode] = new Language(languageCode);
   }
 
+  getLanguagesList() {
+   return keys(this.languages);
+  }
+
   addTexts(preTemplates, prefix = '') {
     let activeDictionary = this.getLanguage();
 

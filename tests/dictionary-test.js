@@ -196,4 +196,38 @@ describe('Dictionary', function() {
       expect(result).to.equal('שלום משה!');
     });
   });
+
+  describe('getLanguagesList()', function() {
+    it('should return an array', function() {
+      let dict = new Dictionary(),
+      result = dict.getLanguagesList();
+
+      expect(isArray(result)).to.true();
+    });
+
+    it('should return only en by default', function() {
+      let dict = new Dictionary(),
+      result = dict.getLanguagesList();
+
+      expect(result).to.eql(['en']);
+    });
+
+    it('should return only it by constructor', function() {
+      let dict = new Dictionary({ language: 'it' }),
+      result = dict.getLanguagesList();
+
+      expect(result).to.eql(['it']);
+    });
+
+    it('should return en and he by adding language', function() {
+      let dict, result;
+
+      dict = new Dictionary(),
+      dict.addLanguage('he');
+      result = dict.getLanguagesList();
+
+      expect(result).to.contain('en', 'he');
+      expect(result.length).to.equal(2);
+    });
+  });
 });
