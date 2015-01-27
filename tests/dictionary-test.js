@@ -1,4 +1,5 @@
 /** related to module: dictionary */
+import assign from 'object-assign';
 import { expect } from 'chai';
 import { isFunction, isObject, isArray, isEmpty } from '../src/utils/type-of';
 import Dictionary from '../src/dictionary';
@@ -272,6 +273,35 @@ describe('Dictionary', function() {
       };
 
       expect(records).to.eql(TREE);
+    });
+  });
+
+  describe('initialization from records', function() {
+    const RECORD_EN = {"en":{"texts":{"email notifications":"Email notifications","save":"Save","saved":"Saved…","set language":"Set language","settings":"Settings","when my happysale is live":"when my HappySale is live","when someone comments on my happysale":"when someone comments on my HappySale","when someone message you on happysale":"when someone message you on HappySale","when you receive offer on happysale":"when you receive offer on HappySale"},"components":{"header":{"about us":"About us","blog":"Blog","HappySale":"HappySale","learn more":"Learn more","log in":"Log in","log out":"Log out","menu":"Menu","messages":"Messages","profile":"Profile","profile.image":"{{0}}'s profile image","search":"Search","search.cancel":"Cancel search","search.label":"Search:","search.placeholder":"Search …","search.submit":"Search","sell":"Sell","settings":"Settings","shop":"Shop","support":"Support","terms and privacy":"Terms & privacy"},"categories":{"appliances":"Appliances","automotive and transportation":"Automotive & Transportation","babies":"Babies","collectibles":"Collectibles","electronics":"Electronics","entertainment":"Entertainment","fashion and accesories":"Fashion & Accesories","furniture and decoration":"Furniture & Decoration","giving away":"Giving Away","jewelry":"Jewelry","musical instruments":"Musical Instruments","other":"Other","pets supplies":"Pets Supplies","sports and camping":"Sports & Camping"},"footer":{"about us":"About us","blog":"Blog","jobs":"Jobs","support":"Support","terms of use":"Terms and privacy"}}}};
+    const RECORD_HE = {"he":{"texts":{"email notifications":"התראות דוא\"ל","save":"לשמור","saved":"נשמר…","set language":"הגדרות שפה","settings":"הגדרות","when my happysale is live":"כשהמכירה שלי נוצרה","when someone comments on my happysale":"כשמגיבים לי במכירות שלי","when someone message you on happysale":"כששולחים לי הודעות ב־HappySale","when you receive offer on happysale":"כשמצעים לי הצעות ב־HappySale"},"components":{"header":{"about us":"אודות","blog":"בלוג","HappySale":"HappySale","learn more":"לימדו עוד","log in":"התחברו","log out":"התנתקו","menu":"תפריט","messages":"הודעות","profile":"פרופיל","profile.image":"תמונה של {{0}}","search":"חיפוש","search.cancel":"בטלו חיפוש","search.label":"חשפו:","search.placeholder":"חיפוש …","search.submit":"חפשו","sell":"מכרו","settings":"הגדרות","shop":"קנו","support":"תמיכה","terms and privacy":"תנאים ופרטיות"},"categories":{"appliances":"מכשירי חשמל","automotive and transportation":"רכב","babies":"לתינוק","collectibles":"אספנות","electronics":"אלקטרוניקה","entertainment":"בידור ותוכן","fashion and accesories":"אופנה","furniture and decoration":"ריהוט ועיצוב","giving away":"למסירה","jewelry":"תכשיטים","musical instruments":"כלי נגינה","other":"אחר","pets supplies":"ציוד לחיות","sports and camping":"ספורט ומחנאות"},"footer":{"about us":"אודות","blog":"בלוג","jobs":"ג'ובס","support":"תמיכה","terms of use":"תנאי השימוש"}}}};
+
+    it('should throw', function() {
+      expect(() => new Dictionary({ records: function() {} })).to.throw();
+      expect(() => new Dictionary({ records: new Date() })).to.throw();
+    });
+
+    it('should not throw', function() {
+      expect(() => new Dictionary({ records: RECORD_EN })).to.not.throw();
+    });
+
+    it('should be contains records as initialization', function() {
+      let dict = new Dictionary({ records: RECORD_HE, recordTexts: true });
+      let records = dict.getRecords();
+
+      expect(records).to.eql(RECORD_HE);
+    });
+
+    it('should be contains records as initialization of dual lingo', function() {
+      const RECORDS = assign({}, RECORD_EN, RECORD_HE);
+      let dict = new Dictionary({ records: RECORDS, recordTexts: true });
+      let records = dict.getRecords();
+
+      expect(records).to.eql(RECORDS);
     });
   });
 });
