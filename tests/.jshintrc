@@ -1,7 +1,11 @@
 {
   "predef": [
     "describe",
-    "it"
+    "it",
+    "before",
+    "beforeEach",
+    "after",
+    "afterEach"
   ],
   "curly": true,
   "latedef": true,
