@@ -44,17 +44,17 @@ gulp.task('bundle:browser:bundle', ['test', 'bundle:browser:clean'], function() 
     .transform(require('6to5ify'))
     .require('./src/dictionary.js', { entry: true })
     .bundle()
-    .pipe(fs.createWriteStream('./dist/dictionary.js'));
+    .pipe(fs.createWriteStream('./dist/dictionary.dev.js'));
 });
 
 gulp.task('bundle:browser:minify', ['test', 'bundle:browser:clean', 'bundle:browser:bundle'], function() {
-  return gulp.src('./dist/dictionary.js')
+  return gulp.src('./dist/dictionary.dev.js')
     .pipe($.uglify({
       compress: {
         drop_console: true
       }
     }))
-    .pipe($.rename('dictionary.min.js'))
+    .pipe($.rename('dictionary.prod.js'))
     .pipe(gulp.dest('./dist'));
 });
 
