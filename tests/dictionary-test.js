@@ -222,7 +222,7 @@ describe('Dictionary', function() {
     it('should return en and he by adding language', function() {
       let dict, result;
 
-      dict = new Dictionary(),
+      dict = new Dictionary();
       dict.addLanguage('he');
       result = dict.getLanguagesList();
 
