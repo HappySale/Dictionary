@@ -1,12 +1,25 @@
 /** related to module: utils/type-of */
 import { expect } from 'chai';
-import typeOf from '../src/utils/type-of';
+import {
+  default as typeOf,
+  isUndefined,
+  isNull,
+  isBoolean,
+  isEmpty,
+  isArray,
+  isObject,
+  isFunction,
+  isDate,
+  isNaN as _isNaN,
+  isNumber,
+  isFinite as _isFinite,
+  isString,
+  isNone
+} from '../src/utils/type-of';
 
 
 describe('utils/typeOf', function() {
   describe('typeOf.isUndefined()', function() {
-    let { isUndefined } = typeOf;
-
     it('should return true', function () {
       expect(isUndefined(undefined)).to.true();
     });
@@ -19,8 +32,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isNull()', function() {
-    let { isNull } = typeOf;
-
     it('should return true', function () {
       expect(isNull(null)).to.true();
     });
@@ -34,8 +45,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isBoolean()', function() {
-    let { isBoolean } = typeOf;
-
     it('should return true', function () {
       expect(isBoolean(true)).to.true();
       expect(isBoolean(false)).to.true();
@@ -52,8 +61,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isArray()', function() {
-    let { isArray } = typeOf;
-
     it('should return true', function () {
       expect(isArray([])).to.true();
       expect(isArray([1, 2])).to.true();
@@ -67,8 +74,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isObject()', function() {
-    let { isObject } = typeOf;
-
     it('should return true', function () {
       expect(isObject({})).to.true();
     });
@@ -85,8 +90,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isFunction()', function() {
-    let { isFunction } = typeOf;
-
     it('should return true', function () {
       expect(isFunction(Object.prototype.toString)).to.true();
       expect(isFunction(() => undefined)).to.true();
@@ -105,8 +108,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isDate()', function() {
-    let isDate = typeOf.isDate;
-
     it('should return true', function () {
       expect(isDate(new Date())).to.true();
     });
@@ -122,8 +123,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isNaN()', function() {
-    let _isNaN = typeOf.isNaN;
-
     it('should return true', function () {
       expect(_isNaN(NaN)).to.true();
     });
@@ -137,8 +136,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isNumber()', function() {
-    let isNumber = typeOf.isNumber;
-
     it('should return true', function () {
       expect(isNumber(NaN)).to.true();
       expect(isNumber(1)).to.true();
@@ -156,9 +153,7 @@ describe('utils/typeOf', function() {
     });
   });
 
-  describe('typeOf.isFinite()', function() {{
-    let _isFinite = typeOf.isFinite;
-
+  describe('typeOf.isFinite()', function() {
     it('should return true', function () {
       expect(_isFinite(1)).to.true();
       expect(_isFinite(0)).to.true();
@@ -174,7 +169,7 @@ describe('utils/typeOf', function() {
       expect(_isFinite('1')).to.false();
       expect(_isFinite([1])).to.false();
     });
-  }});
+  });
 
   describe('typeOf.isNumeric()', function() {
     it('should be equal to isFinite', function() {
@@ -183,8 +178,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isString()', function() {
-    let isString = typeOf.isString;
-
     it('should return true', function () {
       expect(isString('')).to.true();
       expect(isString('null')).to.true();
@@ -205,8 +198,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isNone()', function() {
-    let { isNone } = typeOf;
-
     it('should return true', function () {
       expect(isNone(null)).to.true();
       expect(isNone(undefined)).to.true();
@@ -271,8 +262,6 @@ describe('utils/typeOf', function() {
   });
 
   describe('typeOf.isEmpty()', function() {
-    let { isEmpty } = typeOf;
-
     it('should return true', function () {
       expect(isEmpty(undefined)).to.true();
       expect(isEmpty(null)).to.true();

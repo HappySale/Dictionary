@@ -5,7 +5,7 @@
  * @support ES5+
  */
 import assign from 'object-assign';
-import noop from './noop';
+import { createNoop } from './noop';
 import objectToString from './object-to-string';
 import nativeIsFinite from './native-is-finite';
 
@@ -37,7 +37,7 @@ export function isObject(x) {
 }
 
 export function isFunction(x) {
-  var uint8a = typeof Uint8Array !== 'undefined' ? Uint8Array : noop.create();
+  var uint8a = typeof Uint8Array !== 'undefined' ? Uint8Array : createNoop();
 
   return typeof x === 'function' && (! (x instanceof uint8a));
 }

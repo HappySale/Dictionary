@@ -1,7 +1,6 @@
 import assign from 'object-assign';
 import runtime from './runtime';
-import typeOf from './utils/type-of';
-const { isString, isBoolean, isObject } = typeOf;
+import { default as typeOf, isString, isBoolean, isObject } from './utils/type-of';
 const { keys } = Object;
 
 

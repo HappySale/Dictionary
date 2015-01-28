@@ -1,4 +1,4 @@
-export function create() {
+export function createNoop() {
   return function noop() {};
 }
 

@@ -1,6 +1,6 @@
 /** related to module: utils/noop */
 import { expect } from 'chai';
-import noop from '../src/utils/noop';
+import { default as noop, createNoop } from '../src/utils/noop';
 
 
 describe('utils/noop', function() {
@@ -9,7 +9,7 @@ describe('utils/noop', function() {
   });
 
   it('should be return a function', function() {
-    let result = noop.create();
+    let result = createNoop();
 
     expect(typeof result).to.equal('function');
   });
