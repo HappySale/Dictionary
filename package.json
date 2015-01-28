@@ -12,7 +12,6 @@
   },
   "main": "./index.js",
   "scripts": {
-    "start": "echo 'class A {}' | 6to5",
     "test": "clear; mocha tests --recursive --compilers js:6to5/register",
     "test-watch": "clear; mocha tests --watch --recursive --compilers js:6to5/register",
     "nyan": "clear; mocha tests --watch --recursive --compilers js:6to5/register --reporter nyan"
