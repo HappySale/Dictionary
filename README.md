@@ -1,3 +1,3 @@
 #Dictionary
 
-TODO: write readme
+(c) HappySale ltd.
