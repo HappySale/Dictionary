@@ -90,7 +90,7 @@ class Dictionary {
   }
 
   addTexts(preTemplates, prefix = '') {
-    let activeDictionary = this.getLanguage();
+    const activeDictionary = this.getLanguage();
 
     activeDictionary.add(preTemplates, prefix);
 
@@ -98,15 +98,15 @@ class Dictionary {
   }
 
   t(text, prefix, ...params) {
-    let activeDictionary = this.getLanguage(),
-      template = activeDictionary.get(text, prefix);
+    const activeDictionary = this.getLanguage();
+    const template = activeDictionary.get(text, prefix);
 
     return template(params);
   }
 
   c(text, prefix, count, ...params) {
-    let activeDictionary = this.getLanguage(),
-      template = activeDictionary.get(text, prefix);
+    const activeDictionary = this.getLanguage();
+    const template = activeDictionary.get(text, prefix);
 
     return template(count, params);
   }
@@ -146,7 +146,7 @@ class Dictionary {
     let records = {};
 
     this.getLanguagesList().forEach(function(languageCode) {
-      let langauge = this.getLanguage(languageCode);
+      const langauge = this.getLanguage(languageCode);
       records[languageCode] = langauge.getRecords();
     }, this);
 
