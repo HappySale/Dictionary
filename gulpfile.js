@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var browserify = require('browserify');
+var babelify = require('babelify');
 var del = require('del');
 var fs = require('fs');
 var $ = require('gulp-load-plugins')();
@@ -16,7 +17,7 @@ gulp.task('mocha', function() {
   return gulp.src('./tests/*.js', { read: false })
     .pipe($.mocha({
       recursive: true,
-      compilers: require('6to5/register'),
+      compilers: require('babel/register'),
       reporter: 'nyan',
     }));
 });
@@ -27,7 +28,7 @@ gulp.task('bundle:node', ['test'], function() {
   del.sync(['./src-es5']);
 
   return gulp.src(['./src/**/*.js'])
-    .pipe($['6to5']())
+    .pipe($.babel())
     .pipe(gulp.dest('./src-es5'));
 });
 
@@ -41,7 +42,7 @@ gulp.task('bundle:browser:bundle', ['test', 'bundle:browser:clean'], function() 
     debug: false,
     standalone: 'Dictionary'
   })
-    .transform(require('6to5ify'))
+    .transform(babelify)
     .require('./src/dictionary.js', { entry: true })
     .bundle()
     .pipe(fs.createWriteStream('./dist/dictionary-dev.js'));

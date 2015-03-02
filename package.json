@@ -7,14 +7,14 @@
     "test": "test"
   },
   "bin": {
-    "6to5": "./node_modules/6to5/bin/6to5/index.js",
+    "babel": "./node_modules/babel/bin/babel/index.js",
     "mocha": "./node_modules/mocha/bin/mocha"
   },
   "main": "./index.js",
   "scripts": {
-    "test": "clear; mocha tests --recursive --compilers js:6to5/register",
-    "test-watch": "clear; mocha tests --watch --recursive --compilers js:6to5/register",
-    "nyan": "clear; mocha tests --watch --recursive --compilers js:6to5/register --reporter nyan"
+    "test": "clear; mocha tests --recursive --compilers js:babel/register",
+    "test-watch": "clear; mocha tests --watch --recursive --compilers js:babel/register",
+    "nyan": "clear; mocha tests --watch --recursive --compilers js:babel/register --reporter nyan"
   },
   "keywords": [
     "HappySale",
@@ -26,14 +26,14 @@
     "node": ">= 0.10.0"
   },
   "devDependencies": {
-    "6to5": "^3.3.7",
-    "6to5ify": "^4.0.0",
+    "babel": "^4.6.4",
+    "babelify": "^5.0.3",
     "browserify": "^8.1.1",
     "chai": "^1.10.0",
     "del": "^1.1.1",
     "express": "^4.11.0",
     "gulp": "^3.8.10",
-    "gulp-6to5": "^3.0.0",
+    "gulp-babel": "^4.0.0",
     "gulp-jshint": "^1.9.0",
     "gulp-load-plugins": "^0.8.0",
     "gulp-mocha": "^2.0.0",
