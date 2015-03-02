@@ -12,9 +12,9 @@
   },
   "main": "./index.js",
   "scripts": {
-    "test": "clear; mocha tests --recursive --compilers js:babel/register",
-    "test-watch": "clear; mocha tests --watch --recursive --compilers js:babel/register",
-    "nyan": "clear; mocha tests --watch --recursive --compilers js:babel/register --reporter nyan"
+    "test": "mocha tests --recursive --compilers js:babel/register",
+    "test-watch": "mocha tests --watch --recursive --compilers js:babel/register",
+    "nyan": "mocha tests --watch --recursive --compilers js:babel/register --reporter nyan"
   },
   "keywords": [
     "HappySale",
