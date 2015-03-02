@@ -2,7 +2,7 @@
   "name": "dictionary",
   "title": "dictionary",
   "version": "0.0.1",
-  "description": "",
+  "description": "I18n dictionary for multi frameworks use",
   "directories": {
     "test": "test"
   },
@@ -21,7 +21,6 @@
     "dictionary"
   ],
   "author": "ori livni",
-  "license": "",
   "engines": {
     "node": ">= 0.10.0"
   },
