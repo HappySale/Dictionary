@@ -4,7 +4,7 @@
   "authors": [
     "ori livni <ori@orisomething.com>"
   ],
-  "main": "index.js",
+  "main": "dist/dictionary-prod.js",
   "moduleType": [
     "es6",
     "node"
