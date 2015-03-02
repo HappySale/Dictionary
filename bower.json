@@ -6,6 +6,7 @@
   ],
   "main": "dist/dictionary-prod.js",
   "moduleType": [
+    "globals",
     "es6",
     "node"
   ],
