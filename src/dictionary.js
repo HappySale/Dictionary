@@ -124,7 +124,13 @@ class Dictionary {
   /** For server side use to inject template functions */
   getShortcuts() {
     return {
-      lang: this.setCurrentLanguage.bind(this),
+      lang: function lang(...args) {
+        if (args.length > 0) {
+          this.setCurrentLanguage.apply(this, args);
+        } else {
+          return this.getCurrentLanguage();
+        }
+      }.bind(this),
       t: this.t.bind(this),
       c: this.c.bind(this),
       gt: this.gt.bind(this),

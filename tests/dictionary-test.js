@@ -168,6 +168,20 @@ describe('Dictionary', function() {
     });
   });
 
+  describe('getShortcuts()#lang()', function() {
+    const dict = new Dictionary();
+    const { lang } = dict.getShortcuts();
+
+    it('should set language to he', function() {
+      lang('he');
+      expect(dict.getCurrentLanguage()).to.equal('he');
+    });
+
+    it('should return language he', function() {
+      expect(lang()).to.equal('he');
+    });
+  });
+
   describe('addLanguage()', function() {
     const EN = { '_hi_': 'hi {{0}}!' };
     const HE = { '_hi_': 'שלום {{0}}!' };
