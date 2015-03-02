@@ -2,7 +2,7 @@
   "name": "dictionary",
   "version": "0.0.1",
   "authors": [
-    "ori livni <ori@orisomething.com>"
+    "ori livni <ori@happysale.com>"
   ],
   "main": "dist/dictionary-prod.js",
   "moduleType": [
