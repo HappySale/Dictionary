@@ -98,6 +98,11 @@ class Dictionary {
   }
 
   t(text, prefix, ...params) {
+    /** @validation For empty text return empty string */
+    if (text === '' || text === undefined) {
+      return '';
+    }
+
     const activeDictionary = this.getLanguage();
     const template = activeDictionary.get(text, prefix);
 
@@ -105,6 +110,11 @@ class Dictionary {
   }
 
   c(text, prefix, count, ...params) {
+    /** @validation For empty text return empty string */
+    if (text === '' || text === undefined) {
+      return '';
+    }
+
     const activeDictionary = this.getLanguage();
     const template = activeDictionary.get(text, prefix);
 

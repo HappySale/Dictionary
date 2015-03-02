@@ -78,6 +78,30 @@ describe('Dictionary', function() {
         dict.addTexts(PRE_TEMPLATES);
       });
 
+      it(`should return empty string for '' when calling t()`, function() {
+        const result = dict.t('');
+
+        expect(result).to.equal('');
+      });
+
+      it(`should return empty string for undefined when calling t()`, function() {
+        const result = dict.t(undefined);
+
+        expect(result).to.equal('');
+      });
+
+      it(`should return empty string for '' when calling c()`, function() {
+        const result = dict.c('');
+
+        expect(result).to.equal('');
+      });
+
+      it(`should return empty string for undefined when calling c()`, function() {
+        const result = dict.c(undefined);
+
+        expect(result).to.equal('');
+      });
+
       it('should return hello! for __hi__ when calling t()', function() {
         let result = dict.t('__hi__');
 
