@@ -3,9 +3,31 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
 var babelify = require('babelify');
+var collapse = require('bundle-collapser/plugin');
+var vinylSource = require('vinyl-source-stream');
+var vinylBuffer = require('vinyl-buffer');
 var del = require('del');
 var fs = require('fs');
 var $ = require('gulp-load-plugins')();
+
+
+function bundleBrowserify(options) {
+  var bundle =  browserify({
+    debug: options.debug || false,
+    standalone: 'Dictionary'
+  })
+
+  if (options.debug === false) {
+    bundle.plugin(collapse);
+  }
+
+  return bundle.transform(babelify)
+    .require('./src/dictionary.js', { entry: true })
+    .bundle()
+    .pipe(vinylSource('dictionary.js'))
+    .pipe(vinylBuffer());
+}
+
 
 gulp.task('jshint', function() {
   return gulp.src(['./src/**/*.js'])
@@ -37,19 +59,14 @@ gulp.task('bundle:browser:clean', function() {
   fs.mkdirSync('./dist');
 });
 
-gulp.task('bundle:browser:bundle', ['test', 'bundle:browser:clean'], function() {
-  return browserify({
-    debug: false,
-    standalone: 'Dictionary'
-  })
-    .transform(babelify)
-    .require('./src/dictionary.js', { entry: true })
-    .bundle()
-    .pipe(fs.createWriteStream('./dist/dictionary-dev.js'));
+gulp.task('bundle:browser:bundle:dev', ['test', 'bundle:browser:clean'], function() {
+  return bundleBrowserify({ debug: true })
+    .pipe($.rename('dictionary-dev.js'))
+    .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('bundle:browser:minify', ['test', 'bundle:browser:clean', 'bundle:browser:bundle'], function() {
-  return gulp.src('./dist/dictionary-dev.js')
+gulp.task('bundle:browser:bundle:prod', ['test', 'bundle:browser:clean'], function() {
+  return bundleBrowserify({ debug: false })
     .pipe($.uglify({
       compress: {
         drop_console: true
@@ -59,6 +76,6 @@ gulp.task('bundle:browser:minify', ['test', 'bundle:browser:clean', 'bundle:brow
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('bundle:browser', ['test', 'bundle:browser:clean', 'bundle:browser:bundle', 'bundle:browser:minify']);
+gulp.task('bundle:browser', ['test', 'bundle:browser:clean', 'bundle:browser:bundle:dev', 'bundle:browser:bundle:prod']);
 
 gulp.task('default', ['bundle:node', 'bundle:browser']);
